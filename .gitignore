@@ -1,0 +1,8 @@
+.DS_S*
+__pycache__/
+HW*-solution.ipynb
+HW*.ipynb
+datasets/image/rev-sils/00_*
+datasets/image/rev-sils/01_*
+datasets/image/rev-sils/02_*
+datasets/image/rev-sils/*raw.json

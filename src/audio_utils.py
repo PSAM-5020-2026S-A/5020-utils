@@ -1,4 +1,6 @@
+import librosa
 import numpy as np
+import soundfile as sf
 import wave
 
 from sklearn.cluster import KMeans
@@ -24,7 +26,10 @@ def wav_to_list(wav_filename):
   s, _ = get_samples_and_rate(wav_filename)
   return s
 
-def list_to_wav(wav_array, wav_filename):
+def list_to_wav(samples, sr, filename):
+  sf.write(filename, samples, sr, subtype="PCM_16")
+
+def list_to_wav__(wav_array, wav_filename):
   lim = 2**15 - 1
   wav_array = [max(min(i, lim), -lim) for i in wav_array]
   xb = np.array(wav_array, dtype=np.int16).tobytes()
@@ -37,20 +42,36 @@ def list_to_wav(wav_array, wav_filename):
 
 # Audio Analysis Functions
 
+def fft(samples, rate):
+  _fft = np.abs(np.fft.fft(samples * np.hanning(len(samples))))[ :len(samples) // 2].tolist()
+  num_samples = len(_fft)
+  hps = (rate//2) / num_samples
+  _freqs = [s * hps for s in range(num_samples)]
+  return _fft, _freqs
+
 def logFilter(x, factor=3):
   if factor < 1:
     return x
   else:
     return np.exp(factor * np.log(x)) // np.power(10, factor*5)
 
-def fft(samples, rate=44100, filter_factor=3):
+def fft__(samples, rate=44100, filter_factor=3):
   _fft = logFilter(np.abs(np.fft.fft(samples * np.hanning(len(samples))))[ :len(samples) // 2], filter_factor).tolist()
   num_samples = len(_fft)
   hps = (rate//2) / num_samples
   _freqs = [s * hps for s in range(num_samples)]
   return _fft, _freqs
 
-def stft(samples, rate=44100, window_len=1024):
+def stft(samples, rate, window_len=1024):
+  _times = list(range(0, len(samples), window_len))
+
+  hps = (rate//2) / (window_len//2)
+  _freqs = [s * hps for s in range(window_len//2)]
+  _ffts = np.abs(librosa.stft(samples, n_fft=window_len, hop_length=window_len))
+
+  return _ffts[1:, :].tolist(), _freqs, _times
+
+def stft__(samples, rate=44100, window_len=1024):
   _times = list(range(0, len(samples), window_len))
 
   hps = (rate//2) / (window_len//2)

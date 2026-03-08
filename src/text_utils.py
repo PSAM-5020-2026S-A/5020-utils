@@ -8,7 +8,7 @@ def get_nonzero_scores(vectors, sorted_idxs, n_words):
   nz_scores = [row[idx][:len(row.nonzero()[0])][:n_words] for row,idx in zip(vectors, sorted_idxs)]
   return np.array(nz_scores, dtype=object)
 
-def get_top_words(vectors, vocab, n_words=None):
+def get_top_words(vectors, vocab, *, n_words=None, return_scores=False):
   is_row = vectors.shape[0] == 1
 
   if hasattr(vectors, "toarray"):
@@ -24,4 +24,7 @@ def get_top_words(vectors, vocab, n_words=None):
     nz_scores = nz_scores.squeeze()
     nz_words = nz_words.squeeze()
 
-  return nz_words.tolist(), nz_scores.tolist()
+  if return_scores:
+    return nz_words.tolist(), nz_scores.tolist()
+  else:
+    return nz_words.tolist()

@@ -70,7 +70,7 @@ def stft(samples, rate, window_len=1024):
   _freqs = [s * hps for s in range(window_len//2)]
   _ffts = np.abs(librosa.stft(samples, n_fft=window_len, hop_length=window_len))
 
-  return _ffts[1:, :].tolist(), _freqs, _times
+  return _ffts[1:, 1:].tolist(), _freqs, _times
 
 def stft__(samples, rate=44100, window_len=1024):
   _times = list(range(0, len(samples), window_len))

@@ -41,6 +41,13 @@ jobs:
           rm -rf ./jpg *json *.ipynb
           popd
 
+      - name: Prep Imagenette
+        run: |
+          pushd ./datasets/image/imagenette
+          python prep_imagenette.py
+          rm -rf test_all train_all
+          popd
+
       - name: Zip Files
         run: |
           ln -s datasets data
@@ -48,6 +55,7 @@ jobs:
           tar -czf metfaces.tar.gz data/image/metfaces
           tar -czf clouds.tar.gz data/image/clouds
           tar -czf flowers.tar.gz data/image/flowers
+          tar -czf imagenette.tar.gz data/image/imagenette
           tar -czf bob-ross.tar.gz data/image/bob-ross
           tar -czf rev-sils.tar.gz data/image/rev-sils
           tar -czf keyword-extraction.tar.gz data/text/keyword-extraction

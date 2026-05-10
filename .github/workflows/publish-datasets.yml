@@ -55,7 +55,6 @@ jobs:
           tar -czf metfaces.tar.gz data/image/metfaces
           tar -czf clouds.tar.gz data/image/clouds
           tar -czf flowers.tar.gz data/image/flowers
-          tar -czf imagenette.tar.gz data/image/imagenette
           tar -czf bob-ross.tar.gz data/image/bob-ross
           tar -czf rev-sils.tar.gz data/image/rev-sils
           tar -czf keyword-extraction.tar.gz data/text/keyword-extraction
@@ -63,6 +62,7 @@ jobs:
           tar --exclude='data/audio/birds/prep_birds.py' -czf birds.tar.gz data/audio/birds
           tar --exclude='data/image/0801-500/all' -czf 0801-500.tar.gz data/image/0801-500
           tar --exclude='data/image/flowers102/prep_flowers102.py' -czf flowers102.tar.gz data/image/flowers102
+          tar --exclude='data/image/imagenette/prep_imagenette.py' -czf imagenette.tar.gz data/image/imagenette
           tar --exclude='data/image/forest-tree/raw' -czf forest-tree.tar.gz data/image/forest-tree
           tar --exclude='data/image/lfw/raw' -czf lfw.tar.gz data/image/lfw
 
